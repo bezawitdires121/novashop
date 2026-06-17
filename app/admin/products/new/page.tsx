@@ -1,7 +1,6 @@
-
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -12,9 +11,7 @@ import { supabase } from "@/lib/supabase";
 
 export default function NewProductPage() {
   const router = useRouter();
-
   const [saving, setSaving] = useState(false);
-
   const [categories, setCategories] = useState<any[]>([]);
 
   const [form, setForm] = useState({
@@ -25,16 +22,13 @@ export default function NewProductPage() {
     comparePrice: "",
     stock: "",
     categoryId: "",
-    isPublished: true,
+    isPublished: false,
     isFeatured: false,
     imageUrl: "",
     tags: "",
     colors: "",
     sizes: "",
   });
-
-
-  const [categories, setCategories] = useState<any[]>([]);
 
   useEffect(() => {
     fetch("/api/categories")
@@ -45,24 +39,41 @@ export default function NewProductPage() {
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.value;
-    const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-    setForm({ ...form, name, slug });
+    const slug = name
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
+
+    setForm((prev) => ({ ...prev, name, slug }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!form.name || !form.price || !form.stock) {
       toast.error("Please fill in all required fields");
       return;
     }
+
     setSaving(true);
 
     try {
       const productId = "prod_" + Date.now();
-      const tags = form.tags.split(",").map((t) => t.trim()).filter(Boolean);
 
-      const colors = form.colors.split(",").map((c) => c.trim()).filter(Boolean);
-      const sizes = form.sizes.split(",").map((s) => s.trim()).filter(Boolean);
+      const tags = (form.tags || "")
+        .split(",")
+        .map((t) => t.trim())
+        .filter(Boolean);
+
+      const colors = (form.colors || "")
+        .split(",")
+        .map((c) => c.trim())
+        .filter(Boolean);
+
+      const sizes = (form.sizes || "")
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean);
 
       const { error: productError } = await supabase.from("Product").insert({
         id: productId,
@@ -100,21 +111,28 @@ export default function NewProductPage() {
 
       toast.success("Product created successfully!");
       router.push("/admin/products");
-    } catch (error: any) {
+    } catch (error) {
       toast.error("Something went wrong");
+    } finally {
       setSaving(false);
     }
   };
 
-  const inputClass = "w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-[#6272f6] outline-none text-sm text-white transition-colors";
+  const inputClass =
+    "w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-[#6272f6] outline-none text-sm text-white transition-colors";
+
   const labelClass = "block text-sm text-gray-400 mb-2";
 
   return (
     <div>
       <div className="flex items-center gap-4 mb-8">
-        <Link href="/admin/products" className="p-2 rounded-lg hover:bg-white/5 text-gray-400 hover:text-white transition-colors">
+        <Link
+          href="/admin/products"
+          className="p-2 rounded-lg hover:bg-white/5 text-gray-400 hover:text-white transition-colors"
+        >
           <ArrowLeft size={18} />
         </Link>
+
         <div>
           <h1 className="text-3xl font-bold">Add Product</h1>
           <p className="text-gray-400 text-sm">Create a new product listing</p>
@@ -127,9 +145,11 @@ export default function NewProductPage() {
         onSubmit={handleSubmit}
         className="grid lg:grid-cols-3 gap-8"
       >
-        {/* Main fields */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="rounded-2xl border border-white/5 p-6" style={{ background: "rgba(255,255,255,0.02)" }}>
+          <div
+            className="rounded-2xl border border-white/5 p-6"
+            style={{ background: "rgba(255,255,255,0.02)" }}
+          >
             <h2 className="font-semibold mb-5">Product Information</h2>
 
             <div className="space-y-4">
@@ -139,110 +159,17 @@ export default function NewProductPage() {
                   type="text"
                   value={form.name}
                   onChange={handleNameChange}
-                  placeholder="e.g. Premium Wireless Headphones"
-                  className={inputClass}
-                  required
-                />
-              </div>
-
-              <div>
-                <label className={labelClass}>Slug (auto-generated)</label>
-                <input
-                  type="text"
-                  value={form.slug}
-                  onChange={(e) => setForm({ ...form, slug: e.target.value })}
-                  placeholder="product-url-slug"
-                  className={inputClass}
-                />
-              </div>
-            
-    
-
-              <div>
-                <label className={labelClass}>Description</label>
-                <textarea
-                  value={form.description}
-                  onChange={(e) => setForm({ ...form, description: e.target.value })}
-                  placeholder="Describe the product..."
-                  rows={4}
-                  className={inputClass + " resize-none"}
-                />
-              </div>
-
-              <div>
-                <label className={labelClass}>Tags (comma separated)</label>
-                <input
-                  type="text"
-                  value={form.tags}
-                  onChange={(e) => setForm({ ...form, tags: e.target.value })}
-                  placeholder="wireless, premium, audio"
-                  className={inputClass}
-                />
-              </div>
-              <div>
-                <label className={labelClass}>Colors (comma separated, optional)</label>
-                <input
-                  type="text"
-                  value={form.colors}
-                  onChange={(e) => setForm({ ...form, colors: e.target.value })}
-                  placeholder="Black, White, Navy"
-                  className={inputClass}
-                />
-              </div>
-
-              <div>
-                <label className={labelClass}>Sizes (comma separated, optional)</label>
-                <input
-                  type="text"
-                  value={form.sizes}
-                  onChange={(e) => setForm({ ...form, sizes: e.target.value })}
-                  placeholder="S, M, L, XL"
-                  className={inputClass}
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="rounded-2xl border border-white/5 p-6" style={{ background: "rgba(255,255,255,0.02)" }}>
-            <h2 className="font-semibold mb-5">Pricing & Inventory</h2>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className={labelClass}>Price ($) *</label>
-                <input
-                  type="number"
-                  step="0.01"
-                  value={form.price}
-                  onChange={(e) => setForm({ ...form, price: e.target.value })}
-                  placeholder="0.00"
-                  className={inputClass}
-                  required
-                />
-              </div>
-              <div>
-                <label className={labelClass}>Compare Price ($)</label>
-                <input
-                  type="number"
-                  step="0.01"
-                  value={form.comparePrice}
-                  onChange={(e) => setForm({ ...form, comparePrice: e.target.value })}
-                  placeholder="0.00"
-                  className={inputClass}
-                />
-              </div>
-              <div>
-                <label className={labelClass}>Stock Quantity *</label>
-               <input
-                  type="number"
-                  min="0"
-                  value={form.stock}
-                  onChange={(e) => setForm({ ...form, stock: e.target.value })}
-                  placeholder="0"
                   className={inputClass}
                   required
                 />
               </div>
             </div>
           </div>
+        </div>
+      </motion.form>
+    </div>
+  );
+}
 
           <div className="rounded-2xl border border-white/5 p-6" style={{ background: "rgba(255,255,255,0.02)" }}>
             <h2 className="font-semibold mb-5">Product Image</h2>
