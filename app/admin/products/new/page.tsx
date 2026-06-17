@@ -1,15 +1,22 @@
+
 "use client";
-import { useState, useEffect } from "react";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { ArrowLeft, Save } from "lucide-react";
-import Link from "next/link";
 import toast from "react-hot-toast";
 import { supabase } from "@/lib/supabase";
 
 export default function NewProductPage() {
   const router = useRouter();
+
   const [saving, setSaving] = useState(false);
+
+  const [categories, setCategories] = useState<any[]>([]);
+
   const [form, setForm] = useState({
     name: "",
     slug: "",
@@ -25,6 +32,8 @@ export default function NewProductPage() {
     colors: "",
     sizes: "",
   });
+
+
   const [categories, setCategories] = useState<any[]>([]);
 
   useEffect(() => {
