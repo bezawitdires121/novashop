@@ -8,7 +8,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "NovaShop — Premium eCommerce",
+    default: "NovaShop : Premium eCommerce",
     template: "%s | NovaShop",
   },
   description: "Discover premium products at unbeatable prices.",

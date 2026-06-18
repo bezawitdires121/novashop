@@ -23,10 +23,10 @@ const SLIDES = [
     badge: "Women's Fashion",
     title: "Style That",
     highlight: "Speaks Volumes",
-    subtitle: "From elegant dresses to everyday essentials — fashion for every occasion.",
+    subtitle: "From elegant dresses to everyday essentials : fashion for every occasion.",
     cta: "Shop Women's",
     href: "/shop?category=womens-fashion",
-    color: "#e879a0",
+    color: "#e6bfcd",
   },
   {
     id: 3,
@@ -37,7 +37,7 @@ const SLIDES = [
     subtitle: "Cutting-edge gadgets and devices designed for the way you live and work.",
     cta: "Shop Electronics",
     href: "/shop?category=electronics",
-    color: "#38bdf8",
+    color: "#d1e5ed",
   },
   {
     id: 4,
@@ -45,10 +45,10 @@ const SLIDES = [
     badge: "Home & Living",
     title: "Elevate Your",
     highlight: "Living Space",
-    subtitle: "Transform every room with premium furniture, decor, and lifestyle essentials.",
+    subtitle: "Transform every room with premium furniture, decor and lifestyle essentials.",
     cta: "Shop Home",
     href: "/shop?category=home-living",
-    color: "#34d399",
+    color: "#cbebdf",
   },
 ];
 

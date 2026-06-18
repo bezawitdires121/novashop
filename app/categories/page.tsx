@@ -53,7 +53,7 @@ export default function CategoriesPage() {
           <p className="text-[#6272f6] text-sm font-medium mb-3 tracking-widest uppercase">Browse</p>
           <h1 className="text-4xl md:text-5xl font-bold mb-4">All Categories</h1>
           <p className="text-gray-400 max-w-xl mx-auto">
-            Explore our full range of categories — from electronics to fashion, beauty, and beyond.
+            Explore our full range of categories - from electronics to fashion, beauty, and beyond.
           </p>
         </motion.div>
 
