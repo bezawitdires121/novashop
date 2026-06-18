@@ -4,16 +4,13 @@ import { supabase } from "@/lib/supabase";
 export async function GET() {
   try {
     const { data: products, error: productsError } = await supabase
-      .from("Product")
-      .select("*")
-      .eq("isPublished", true)
-      .order("createdAt", { ascending: false });
+  .from("Product")
+  .select("*");
 
-    if (productsError) {
-      console.error("Products error:", productsError);
-      return NextResponse.json({ error: productsError.message }, { status: 500 });
-    }
-
+if (productsError) {
+  console.error("Products error:", productsError);
+  return NextResponse.json({ error: productsError.message }, { status: 500 });
+}
     const { data: images, error: imagesError } = await supabase
       .from("ProductImage")
       .select("*");
