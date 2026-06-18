@@ -8,16 +8,15 @@
 
 ## Tech Stack
 
- Layer               Technology 
- Frontend            Next.js 14 (App Router), TypeScript, Tailwind CSS 
- Animations          Framer Motion 
- Auth                Clerk (social login, JWT, role-based access) 
- Database            PostgreSQL via Supabase 
- ORM                 Prisma v5 
- Payments            Stripe Checkout (test + production ready) 
- Image Storage       Cloudinary 
- State Management    Zustand (cart, wishlist, preferences) 
- Deployment          Vercel 
+ Frontend [Next.js 14 (App Router), TypeScript, Tailwind CSS ]
+ Animations [Framer Motion ]
+ Auth [Clerk (social login, JWT, role-based access) ]
+ Database [PostgreSQL via Supabase] 
+ ORM [Prisma v5] 
+ Payments [Stripe Checkout (test + production ready) ]
+ Image Storage [Cloudinary ]
+ State Management [Zustand (cart, wishlist, preferences) ]
+ Deployment [Vercel] 
 
 ---
 
