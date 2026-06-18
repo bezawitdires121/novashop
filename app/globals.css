@@ -84,3 +84,28 @@
     background-position: -200% 0;
   }
 }
+/* Light mode overrides */
+.light body {
+  background: #f8f8fc;
+  color: #0a0a0f;
+}
+
+.light .bg-\[\#05050a\] {
+  background: #f8f8fc !important;
+}
+
+.light .bg-\[\#0a0a0f\] {
+  background: #ffffff !important;
+}
+
+.light .text-white {
+  color: #0a0a0f !important;
+}
+
+.light .text-gray-400 {
+  color: #4b5563 !important;
+}
+
+.light .border-white\/5 {
+  border-color: rgba(0,0,0,0.08) !important;
+}

@@ -1,12 +1,19 @@
 "use client";
 
-
-
+import { useTheme } from "next-themes";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShoppingBag, Menu, X, User } from "lucide-react";
-import { useUser, SignInButton, UserButton } from "@clerk/nextjs";
+import {
+  ShoppingBag,
+  Menu,
+  X,
+  User,
+  Sun,
+  Moon,
+} from "lucide-react";
+
+import { useUser, SignInButton } from "@clerk/nextjs";
 import { useCartStore } from "@/store/cart";
 import PreferencesSelector from "@/components/layout/PreferencesSelector";
 
@@ -14,20 +21,27 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  
-  
+
+  // ✅ Hooks MUST be here
+  const { theme, setTheme } = useTheme();
   const { isSignedIn } = useUser();
+
   const totalItems = useCartStore((state) => state.getTotalItems());
   const openCart = useCartStore((state) => state.openCart);
 
   useEffect(() => {
     setMounted(true);
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
-  
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const links = [
     { name: "Shop", href: "/shop" },
@@ -42,29 +56,62 @@ export default function Navbar() {
         className="absolute inset-0 border-b border-white/5 transition-all duration-300"
         style={{
           backdropFilter: "blur(20px)",
-          background: scrolled ? "rgba(5,5,10,0.95)" : "rgba(5,5,10,0.7)",
+          background: scrolled
+            ? "rgba(5,5,10,0.95)"
+            : "rgba(5,5,10,0.7)",
         }}
       />
+
       <div className="relative max-w-7xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
-        <Link href="/" className="text-2xl font-bold tracking-tight text-white flex-shrink-0">
+        <Link
+          href="/"
+          className="text-2xl font-bold tracking-tight text-white flex-shrink-0"
+        >
           Nova<span className="text-[#6272f6]">Shop</span>
         </Link>
 
         <div className="hidden md:flex items-center gap-6 text-sm text-gray-400 flex-shrink-0">
           {links.map((link) => (
-            <Link key={link.name} href={link.href} className="hover:text-white transition-colors duration-200 whitespace-nowrap">
+            <Link
+              key={link.name}
+              href={link.href}
+              className="hover:text-white transition-colors duration-200 whitespace-nowrap"
+            >
               {link.name}
             </Link>
           ))}
         </div>
 
-       
-
         <div className="flex items-center gap-2">
           <PreferencesSelector />
 
-          <button onClick={openCart} className="relative p-2.5 rounded-xl hover:bg-white/5 transition-colors duration-200">
+          {/* Theme Toggle */}
+          <button
+            onClick={() =>
+              setTheme(theme === "dark" ? "light" : "dark")
+            }
+            className="p-2.5 rounded-xl hover:bg-white/5 transition-colors duration-200"
+          >
+            {mounted && theme === "dark" ? (
+              <Sun
+                size={18}
+                className="text-gray-400 hover:text-white"
+              />
+            ) : (
+              <Moon
+                size={18}
+                className="text-gray-400 hover:text-white"
+              />
+            )}
+          </button>
+
+          {/* Cart */}
+          <button
+            onClick={openCart}
+            className="relative p-2.5 rounded-xl hover:bg-white/5 transition-colors duration-200"
+          >
             <ShoppingBag size={20} className="text-white" />
+
             {mounted && totalItems > 0 && (
               <motion.span
                 initial={{ scale: 0 }}
@@ -76,9 +123,16 @@ export default function Navbar() {
             )}
           </button>
 
-{isSignedIn ? (
-            <Link href="/profile" className="p-2 rounded-xl hover:bg-white/5 transition-colors">
-              <User size={18} className="text-gray-400 hover:text-white" />
+          {/* Auth */}
+          {isSignedIn ? (
+            <Link
+              href="/profile"
+              className="p-2 rounded-xl hover:bg-white/5 transition-colors"
+            >
+              <User
+                size={18}
+                className="text-gray-400 hover:text-white"
+              />
             </Link>
           ) : (
             <SignInButton mode="modal">
@@ -89,15 +143,21 @@ export default function Navbar() {
             </SignInButton>
           )}
 
+          {/* Mobile Toggle */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             className="md:hidden p-2.5 rounded-xl hover:bg-white/5 transition-colors"
           >
-            {mobileOpen ? <X size={20} className="text-white" /> : <Menu size={20} className="text-white" />}
+            {mobileOpen ? (
+              <X size={20} className="text-white" />
+            ) : (
+              <Menu size={20} className="text-white" />
+            )}
           </button>
         </div>
       </div>
 
+      {/* Mobile Menu */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
@@ -119,7 +179,6 @@ export default function Navbar() {
                   {link.name}
                 </Link>
               ))}
-             
             </div>
           </motion.div>
         )}
