@@ -8,15 +8,15 @@
 
 ## Tech Stack
 
- Frontend [Next.js 14 (App Router), TypeScript, Tailwind CSS ]
- Animations [Framer Motion ]
- Auth [Clerk (social login, JWT, role-based access) ]
- Database [PostgreSQL via Supabase] 
- ORM [Prisma v5] 
- Payments [Stripe Checkout (test + production ready) ]
- Image Storage [Cloudinary ]
- State Management [Zustand (cart, wishlist, preferences) ]
- Deployment [Vercel] 
+- Frontend [Next.js 14 (App Router), TypeScript, Tailwind CSS ]
+ -Animations [Framer Motion ]
+ -Auth [Clerk (social login, JWT, role-based access) ]
+ -Database [PostgreSQL via Supabase] 
+ -ORM [Prisma v5] 
+ -Payments [Stripe Checkout (test + production ready) ]
+ -Image Storage [Cloudinary ]
+ -State Management [Zustand (cart, wishlist, preferences) ]
+ -Deployment [Vercel] 
 
 ---
 
@@ -33,8 +33,8 @@
 - Color and size variant selectors that update state dynamically
 - Stock level indicator (In Stock / Only X left / Out of Stock)
 - Quantity selector with min/max validation
-- "You Might Also Like" carousel — products from the same category
-- "Frequently Bought Together" section — products from different categories
+- "You Might Also Like" carousel : products from the same category
+- "Frequently Bought Together" section : products from different categories
 - Recently Viewed section that persists across the session using localStorage
 - Customer review system with star ratings, verified purchase badges, and a rating breakdown histogram
 
